@@ -3,15 +3,17 @@
         <label for="periodSelector">Выберите период: </label>
         <select id="periodSelector" name="period">
             <option value="day">День</option>
+            <option value="week">Неделя</option>
             <option value="month">Месяц</option>
             <option value="year">Год</option>
             <option value="custom">Выбрать</option>
         </select>
 
-        <div id="customPeriod" style="display: none;">
-            <label for="customInput">Enter Custom Period:</label>
-            <input type="text" id="customInput" name="customInput">
+        <div v-if="periodSelector === 'custom'">
+            <input type="date" v-model="customStartDate" />
+            <input type="date" v-model="customEndDate" />
         </div>
+
     </nav>
 </template>
 
@@ -20,7 +22,6 @@
     font-size: 150%;
     font-weight: bold;
     color: white;
-    position: absolute;
     top: 0;
     left: 0;
     right: 0;
@@ -28,7 +29,7 @@
     padding: 0 2rem;
     display: flex;
     align-items: center;
-    background-image: url('header_image3.jpg');
+    background-image: url('/header_image3.jpg');
     background-size: cover;
     background-position: center;
     background-repeat: no-repeat;

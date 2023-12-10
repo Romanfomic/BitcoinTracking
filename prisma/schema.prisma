@@ -12,19 +12,8 @@ datasource db {
 
 // schema.prisma
 
-model Year {
-  day    Int
-  month  Int
-  value  Decimal  @db.Decimal(10, 2)
-  
-  @@id([day, month])
-}
-
-model Day {
-  day    Int
-  month  Int
-  hour   Int
-  value  Decimal  @db.Decimal(10, 2)
-  
-  @@id([day, month, hour])
+model bitcoin_data {
+  id      Int      @id @default(autoincrement())
+  price   Decimal  @db.Decimal(10, 2)
+  date    DateTime
 }
