@@ -1,4 +1,6 @@
 import { PrismaClient } from '@prisma/client'
+import axios from 'axios';
+import { fetchAndSaveData } from '../utils/fetchAndSaveData';
 const prisma = new PrismaClient()
 
 export default defineEventHandler(async (event) => {
@@ -7,16 +9,14 @@ export default defineEventHandler(async (event) => {
     const startDate = new Date(first_date as string);
     const endDate = new Date(last_date as string);
 
-    // Создаем массив дат в заданном периоде
     const dateRange = [];
-    let currentDate = new Date(startDate);
+    let currentDate = new Date(startDate);  
 
     while (currentDate < endDate) {
       dateRange.push(new Date(currentDate));
       currentDate.setDate(currentDate.getDate() + 1);
     }
 
-    // Проверяем каждую дату на наличия в базе данных
     for (const date of dateRange) {
       let newDate = new Date(date);
       newDate.setDate(newDate.getDate() + 1);
@@ -29,7 +29,11 @@ export default defineEventHandler(async (event) => {
         },
       });
       if (!dataExists) {
-        
+        try{
+          await fetchAndSaveData(date);
+        } catch(error) {
+          console.error(error);
+        }
       }
     }
 
@@ -39,7 +43,10 @@ export default defineEventHandler(async (event) => {
           gte: startDate,
           lte: endDate,
         }
-      }
+      },
+      orderBy: {
+        date: 'asc',
+      },
     });
   }
 })

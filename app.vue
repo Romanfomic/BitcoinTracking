@@ -60,6 +60,9 @@ const getEndDate = computed(() => {
 
 
 <style scoped>
+body{
+  margin: 0;
+}
 .nav {
     font-size: 150%;
     font-weight: bold;
